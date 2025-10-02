@@ -1,45 +1,43 @@
-
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inscription avec Google</title>
+  <meta charset="UTF-8">
+  <title>Inscription vendeur</title>
 </head>
 <body>
-  <h2>Inscription vendeur avec Google</h2>
-  <button id="googleSignInBtn">Continuer avec Google</button>
+  <h1>Inscription vendeur</h1>
+  <button id="googleSignup">S'inscrire avec Google</button>
 
   <script type="module">
-    // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    // Config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDaLEfamwm6GSFGNH_lyIoKaNgsVggkVKM",
       authDomain: "drabiss.firebaseapp.com",
       projectId: "drabiss",
-      storageBucket: "drabiss.appspot.com",
+      storageBucket: "drabiss.firebasestorage.app",
       messagingSenderId: "218797430971",
-      appId: "1:218797430971:web:102ba8065ef6f4967d319e"
+      appId: "1:218797430971:web:102ba8065ef6f4967d319e",
+      measurementId: "G-3CWXB9VPDM"
     };
 
-    // Initialisation
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Connexion avec Google
-    document.getElementById("googleSignInBtn").addEventListener("click", async () => {try {
+    document.getElementById("googleSignup").addEventListener("click", async () => {
+      try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        alert("✅ Connecté : " + user.email);
-        // Redirection ou autre logique ici
+        alert(`Bienvenue ${user.displayName}`);
+        window.location.href = "dashboard.html";
       } catch (error) {
-        alert("❌ Erreur : " + error.message);
+        alert("Erreur : " + error.message);
       }
     });
   </script>
 </body>
 </html>
+```
