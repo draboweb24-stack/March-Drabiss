@@ -4,49 +4,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inscription - DrabissMarket</title>
+  <title>Inscription avec Google</title>
 </head>
 <body>
-  <h2>Inscription vendeur</h2>
-  <form id="signup-form">
-    <input type="email" id="email" placeholder="Email" required><br>
-    <input type="password" id="password" placeholder="Mot de passe" required><br>
-    <button type="submit">S'inscrire</button>
-  </form>
-  <p id="message"></p>
+  <h2>Inscription vendeur avec Google</h2>
+  <button id="googleSignInBtn">Continuer avec Google</button>
 
   <script type="module">
+    // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"; const firebaseConfig = {
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    // Config Firebase
+    const firebaseConfig = {
       apiKey: "AIzaSyDaLEfamwm6GSFGNH_lyIoKaNgsVggkVKM",
       authDomain: "drabiss.firebaseapp.com",
       projectId: "drabiss",
-      storageBucket: "drabiss.firebasestorage.app",
+      storageBucket: "drabiss.appspot.com",
       messagingSenderId: "218797430971",
-      appId: "1:218797430971:web:102ba8065ef6f4967d319e",
-      measurementId: "G-3CWXB9VPDM"
+      appId: "1:218797430971:web:102ba8065ef6f4967d319e"
     };
 
+    // Initialisation
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-    const form = document.getElementById('signup-form');
-    const msg = document.getElementById('message');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        msg.textContent = "✅ Compte créé avec succès ! Redirection...";
-        // Rediriger vers le tableau de bord après 2 secondes
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 2000);
+    // Connexion avec Google
+    document.getElementById("googleSignInBtn").addEventListener("click", async () => {try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        alert("✅ Connecté : " + user.email);
+        // Redirection ou autre logique ici
       } catch (error) {
-        msg.textContent = "❌ Erreur : " + error.message;
+        alert("❌ Erreur : " + error.message);
       }
     });
   </script>
