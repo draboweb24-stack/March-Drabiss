@@ -1,43 +1,44 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription vendeur</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription Drabiss</title>
 </head>
 <body>
-  <h1>Inscription vendeur</h1>
-  <button id="googleSignup">S'inscrire avec Google</button>
+  <h1>Inscription</h1>
+  <button id="googleSignup">Inscription avec Google</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDaLEfamwm6GSFGNH_lyIoKaNgsVggkVKM",
+      apiKey: "AIzaSyDaLEfarmmGGFSfN... ",
       authDomain: "drabiss.firebaseapp.com",
       projectId: "drabiss",
-      storageBucket: "drabiss.firebasestorage.app",
-      messagingSenderId: "218797430971",
-      appId: "1:218797430971:web:102ba8065ef6f4967d319e",
-      measurementId: "G-3CWXB9VPDM"
+      storageBucket: "drabiss.appspot.com",
+      messagingSenderId: "218797403971",
+      appId: "1:218797403971:web:10b2ab8065ef6f4967d319e",
+      measurementId: "G-30MX8W9PDM"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    document.getElementById("googleSignup").addEventListener("click", async () => {
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        alert(`Bienvenue ${user.displayName}`);
+    document.getElementById("googleSignup").addEventListener("click", () => {
+      signInWithRedirect(auth, provider);
+    });
+
+    // Vérifie le résultat après redirection
+    getRedirectResult(auth).then((result) => {
+      if (result && result.user) {
         window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Erreur : " + error.message);
       }
+    }).catch((error) => {
+      console.error(error);
     });
   </script>
 </body>
 </html>
-```
