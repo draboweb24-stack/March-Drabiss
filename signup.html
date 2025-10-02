@@ -1,0 +1,55 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscription - DrabissMarket</title>
+</head>
+<body>
+  <h2>Inscription vendeur</h2>
+  <form id="signup-form">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Mot de passe" required><br>
+    <button type="submit">S'inscrire</button>
+  </form>
+  <p id="message"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"; const firebaseConfig = {
+      apiKey: "AIzaSyDaLEfamwm6GSFGNH_lyIoKaNgsVggkVKM",
+      authDomain: "drabiss.firebaseapp.com",
+      projectId: "drabiss",
+      storageBucket: "drabiss.firebasestorage.app",
+      messagingSenderId: "218797430971",
+      appId: "1:218797430971:web:102ba8065ef6f4967d319e",
+      measurementId: "G-3CWXB9VPDM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('signup-form');
+    const msg = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        msg.textContent = "✅ Compte créé avec succès ! Redirection...";
+        // Rediriger vers le tableau de bord après 2 secondes
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 2000);
+      } catch (error) {
+        msg.textContent = "❌ Erreur : " + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
+```
