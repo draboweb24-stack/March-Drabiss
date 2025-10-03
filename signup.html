@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscription - DrabissMarket</title>
 </head>
-<body style="font-family: Arial, sans-serif; text-align: center; padding: 50px;">
-  <h1>Créer un compte vendeur</h1>
-  <p>Cliquez ci-dessous pour vous inscrire avec Google</p>
-  <button id="googleSignup" style="padding: 10px 20px; font-size: 16px;">S'inscrire avec Google</button>
+<body>
+  <h2>Inscription avec Google</h2>
+  <button id="googleSignup">S'inscrire avec Google</button>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDaLEfamwm6GSFGNH_lyIoKaNgsVggkVKM",
@@ -25,21 +24,17 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app); 
-const provider = new GoogleAuthProvider();
-
-    document.getElementById("googleSignup").addEventListener("click", () => {
-      signInWithRedirect(auth, provider);
-    });
-
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result && result.user) {
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider(); document.getElementById("googleSignup").addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        if (result.user) {
           window.location.href = "dashboard.html";
         }
-      })
-      .catch((error) => {
-        console.error("Erreur :", error.message);
-      });
+      } catch (error) {
+        console.error("Erreur d’authentification :", error);
+        alert("Échec de l'inscription avec Google.");
+      }
+    });
   </script>
 </body>
